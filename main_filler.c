@@ -6,7 +6,7 @@
 /*   By: upopee <upopee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/15 11:07:54 by upopee            #+#    #+#             */
-/*   Updated: 2018/01/15 16:14:29 by upopee           ###   ########.fr       */
+/*   Updated: 2018/01/15 17:39:58 by upopee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int		init_fenv(t_fenv *env)
 	env->hmap = NULL;
 	env->size_x = 0;
 	env->size_y = 0;
+
+	return (SUCCESS);
 }
 
 int		init_heatmap(t_fenv *env, int x, int y)
@@ -50,16 +52,18 @@ int		delete_fenv(t_fenv *env)
 				free(*curr);
 			curr++;
 		}
-		free(env->hmap)
+		free(env->hmap);
 	}
 	return (SUCCESS);
 }
 
-int		main(int argc, char **argv)
+int		main(void)
 {
 	t_fenv	env;
-	argc = 0;
-	argv = NULL;
+
+	init_fenv(&env);
+	init_heatmap(&env, 5, 5);
+	delete_fenv(&env);
 
 	return (SUCCESS);
 }
