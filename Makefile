@@ -6,7 +6,7 @@
 #    By: upopee <upopee@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/15 11:05:28 by upopee            #+#    #+#              #
-#    Updated: 2018/01/15 11:15:25 by upopee           ###   ########.fr        #
+#    Updated: 2018/01/17 15:34:38 by upopee           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,10 @@ INCLUDES_DIR = ./inc
 INCLUDES = -I $(INCLUDES_DIR) -I $(LIB_INCLUDES_DIR)
 
 # Sources files
-FILES =		main_filler
+FILES =		main_filler \
+			buffer_tools \
+			heatmap_tools \
+			vm_io \
 
 SOURCES = $(patsubst %,$(SRC_DIR)/%,$(FILES:=.c))
 SRC_DIR = ./src
