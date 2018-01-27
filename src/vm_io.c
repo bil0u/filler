@@ -6,7 +6,7 @@
 /*   By: upopee <upopee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/16 15:25:50 by upopee            #+#    #+#             */
-/*   Updated: 2018/01/17 17:41:13 by upopee           ###   ########.fr       */
+/*   Updated: 2018/01/26 18:38:02 by Bilou            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,13 @@ static void		get_piecedata(t_piece *piece, char *head)
 	int		i;
 	int		j;
 
-	if (piece->size_x == UNSET && piece->size_y == UNSET)
-	{
-		buff = next_word(head, ' ');
-		piece->size_x = ft_atoi(buff);
-		buff = next_word(buff, ' ');
-		piece->size_y = ft_atoi(buff);
-	}
+	ft_printf("head %p / text: %s / \n", head, head);
+	buff = next_word(head, ' ');
+	piece->size_x = ft_atoi(buff);
+	ft_printf("%p / %d / \n", buff, piece->size_x);
+	buff = next_word(buff, ' ');
+	piece->size_y = ft_atoi(buff);
+	ft_printf("%p / %d / \n", buff, piece->size_y);
 	i = 0;
 	while (i < piece->size_x)
 	{
@@ -87,6 +87,7 @@ static void		get_piecedata(t_piece *piece, char *head)
 			piece->cells[i][j] = buff[j];
 			j++;
 		}
+		ft_printf("%s\n", piece->cells[i]);
 		free(buff);
 		buff = NULL;
 		i++;

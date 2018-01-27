@@ -6,7 +6,7 @@
 /*   By: upopee <upopee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/16 15:19:00 by upopee            #+#    #+#             */
-/*   Updated: 2018/01/17 15:08:39 by upopee           ###   ########.fr       */
+/*   Updated: 2018/01/26 18:28:43 by Bilou            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,27 @@ int		init_piecebuffer(t_piece *p, int xmax, int ymax)
 {
 	int		i;
 
-	i = 0;
 	if ((p->cells = ft_memalloc(sizeof(*(p->cells)) * xmax)) == NULL)
 		return (FAILURE);
+	i = 0;
 	while (i < xmax)
 	{
 		if ((p->cells[i] = ft_memalloc(sizeof(**(p->cells)) * ymax)) == NULL)
 			break ;
 		i++;
 	}
-	p->size_x = 0;
-	p->size_x = 0;
+	p->size_x = xmax;
+	p->size_y = ymax;
 	return (i == xmax ? SUCCESS : FAILURE);
+}
+
+void	clean_buffer(char **buffer, int x, int y)
+{
+	while (x--)
+	{
+		while (y--)
+			buffer[x][y] = 0;
+	}
 }
 
 int		delete_doublearray(char **cells, int nb_lines)

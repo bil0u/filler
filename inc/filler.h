@@ -6,7 +6,7 @@
 /*   By: upopee <upopee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/15 11:13:57 by upopee            #+#    #+#             */
-/*   Updated: 2018/01/17 19:27:47 by upopee           ###   ########.fr       */
+/*   Updated: 2018/01/26 18:07:21 by Bilou            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,12 @@
 # define EMPTY_CELL '.'
 # define BORDER_CELL '#'
 # define HOT_CELL '%'
-# define P1_CHAR 'o'
-# define P2_CHAR 'x'
+# define P1_CHAR 'O'
+# define P2_CHAR 'X'
 # define PIECE_CHAR '*'
+
+# define HOT_SCORE 5
+# define WALL_SCORE 50
 
 typedef struct	s_hmap
 {
@@ -47,8 +50,8 @@ typedef struct	s_fenv
 	int			opponent;
 	char		char_used;
 	char		char_opp;
-	int			next_x;
-	int			next_y;
+	int			score;
+	int			playing;
 	t_hmap		heat_map;
 	t_piece		piece_buffer;
 }				t_fenv;

@@ -6,7 +6,7 @@
 #    By: upopee <upopee@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/15 11:05:28 by upopee            #+#    #+#              #
-#    Updated: 2018/01/17 15:34:38 by upopee           ###   ########.fr        #
+#    Updated: 2018/01/27 15:44:13 by Bilou            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,9 @@ INCLUDES = -I $(INCLUDES_DIR) -I $(LIB_INCLUDES_DIR)
 FILES =		main_filler \
 			buffer_tools \
 			heatmap_tools \
+			player_behaviour \
 			vm_io \
+			debug \
 
 SOURCES = $(patsubst %,$(SRC_DIR)/%,$(FILES:=.c))
 SRC_DIR = ./src

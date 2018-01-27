@@ -6,13 +6,13 @@
 /*   By: upopee <upopee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 15:33:37 by upopee            #+#    #+#             */
-/*   Updated: 2018/01/17 17:42:51 by upopee           ###   ########.fr       */
+/*   Updated: 2018/01/26 17:31:35 by Bilou            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filler.h"
 
-static int		is_free(char **c, int x, int y)
+int				is_free(char **c, int x, int y)
 {
 	return (c[x][y] == EMPTY_CELL
 			|| c[x][y] == BORDER_CELL || c[x][y] == HOT_CELL);
