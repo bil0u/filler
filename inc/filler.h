@@ -6,7 +6,7 @@
 /*   By: upopee <upopee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/15 11:13:57 by upopee            #+#    #+#             */
-/*   Updated: 2018/01/29 20:43:58 by Bilou            ###   ########.fr       */
+/*   Updated: 2018/01/29 21:06:41 by Bilou            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # define PIECE_CHAR '*'
 
 # define HOT_SCORE 10
-# define WALL_SCORE 50
+# define WALL_SCORE 20
 
 typedef struct	s_hmap
 {
