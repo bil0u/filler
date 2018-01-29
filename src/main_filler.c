@@ -6,7 +6,7 @@
 /*   By: upopee <upopee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/15 11:07:54 by upopee            #+#    #+#             */
-/*   Updated: 2018/01/29 12:55:04 by Bilou            ###   ########.fr       */
+/*   Updated: 2018/01/29 20:28:12 by Bilou            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ static void		init_fenv(t_fenv *env)
 	env->char_used = UNSET;
 	env->opponent = UNSET;
 	env->char_opp = UNSET;
-	env->score = 0;
-	env->playing = 1;
+	env->round.playing = 1;
+	env->round.direction = UNSET;
 	env->heat_map.cells = NULL;
 	env->heat_map.size_x = UNSET;
 	env->heat_map.size_y = UNSET;

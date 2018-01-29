@@ -6,7 +6,7 @@
 /*   By: upopee <upopee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/15 11:13:57 by upopee            #+#    #+#             */
-/*   Updated: 2018/01/29 14:52:55 by Bilou            ###   ########.fr       */
+/*   Updated: 2018/01/29 20:43:58 by Bilou            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,31 @@ typedef struct	s_piece
 	int			offset_y;
 }				t_piece;
 
+typedef struct	s_analytics
+{
+	int			playing;
+	int			score;
+	int			tmp_score;
+	int			direction;
+	int			opp_x;
+	int			opp_y;
+	int			player_x;
+	int			player_y;
+	int			x_direction;
+	int			y_direction;
+	int			x_best;
+	int			y_best;
+}				t_analytics;
+
 typedef struct	s_fenv
 {
 	int			player;
 	int			opponent;
 	char		char_used;
 	char		char_opp;
-	int			score;
-	int			tmp_score;
-	int			playing;
 	t_hmap		heat_map;
 	t_piece		piece_buffer;
+	t_analytics	round;
 }				t_fenv;
 
 #endif

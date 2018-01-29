@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heatmap_tools.h                                    :+:      :+:    :+:   */
+/*   analytics.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: upopee <upopee@student.42.fr>              +#+  +:+       +#+        */
+/*   By: Bilou <Bilou@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/17 15:33:57 by upopee            #+#    #+#             */
-/*   Updated: 2018/01/29 18:06:04 by Bilou            ###   ########.fr       */
+/*   Created: 2018/01/29 18:21:10 by Bilou             #+#    #+#             */
+/*   Updated: 2018/01/29 20:56:05 by Bilou            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HEATMAP_TOOLS_H
-# define HEATMAP_TOOLS_H
+#ifndef ANALYTICS_H
+# define ANALYTICS_H
 
-void	update_heatvalues(t_hmap *hmap, char opponent);
-void	get_offset(t_piece *p);
-int		can_fit_here(t_fenv *e, int x, int y);
+int		score(t_fenv *e, int x, int y, int wall);
+void	init_round(t_analytics *a);
+void	first_direction(t_fenv *e, t_hmap *m, t_analytics *a);
+void	update_direction(t_fenv *e, t_hmap *m, t_analytics *a);
 
 #endif

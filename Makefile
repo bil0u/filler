@@ -6,7 +6,7 @@
 #    By: upopee <upopee@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/15 11:05:28 by upopee            #+#    #+#              #
-#    Updated: 2018/01/27 15:44:13 by Bilou            ###   ########.fr        #
+#    Updated: 2018/01/29 18:20:53 by Bilou            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ FILES =		main_filler \
 			buffer_tools \
 			heatmap_tools \
 			player_behaviour \
+			analytics \
 			vm_io \
 			debug \
 
