@@ -6,7 +6,7 @@
 /*   By: upopee <upopee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 18:30:04 by upopee            #+#    #+#             */
-/*   Updated: 2018/01/26 18:32:40 by Bilou            ###   ########.fr       */
+/*   Updated: 2018/01/29 14:54:33 by Bilou            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,14 @@
 #include "heatmap_tools.h"
 #include "vm_io.h"
 #include "buffer_tools.h"
+#include "debug.h"
 
 static void			get_offset(t_piece *p)
 {
 	int		i;
 
+	p->offset_x = 0;
+	p->offset_y = 0;
 	while (p->offset_x < p->size_x)
 	{
 		i = 0;
@@ -56,12 +59,12 @@ static int			can_fit_here(t_fenv *e, int x, int y)
 		yy = y;
 		while (j < e->piece_buffer.size_y && yy < e->heat_map.size_y)
 		{
-			if (e->piece_buffer.cells[i][j] == PIECE_CHAR
-				&& !is_free(e->heat_map.cells, x, yy))
+			if (e->piece_buffer.cells[i][j] == PIECE_CHAR)
 			{
-				if (e->heat_map.cells[x][yy] == e->char_opp)
+				if (e->heat_map.cells[x][yy] == e->char_used)
+					links++;
+				else if (e->heat_map.cells[x][yy] == e->char_opp)
 					return (0);
-				links++;
 			}
 			yy++;
 			j++;
@@ -71,31 +74,30 @@ static int			can_fit_here(t_fenv *e, int x, int y)
 		x++;
 		i++;
 	}
-	return (i < e->piece_buffer.size_x ? 0 : 1);
+	return ((i == e->piece_buffer.size_x) && (links == 1) ? 1 : 0);
 }
 
-static int			score(t_hmap *m, t_piece *p, int x, int y)
+static int			score(t_fenv *e, int x, int y)
 {
-	int		score;
 	int		wall;
 	int		i;
 	int		j;
 	int		yy;
 
-	score = 0;
+	e->tmp_score = 0;
 	wall = 0;
-	i = p->offset_x;
-	while (i < p->size_x && x < m->size_x)
+	i = e->piece_buffer.offset_x;
+	while (i < e->piece_buffer.size_x && x < e->heat_map.size_x)
 	{
-		j = p->offset_y;
+		j = e->piece_buffer.offset_y;
 		yy = y;
-		while (j < p->size_y && yy < m->size_y)
+		while (j < e->piece_buffer.size_y && yy < e->heat_map.size_y)
 		{
-			if (p->cells[i][j++] == PIECE_CHAR)
+			if (e->piece_buffer.cells[i][j++] == PIECE_CHAR)
 			{
-				if (m->cells[x][yy] == HOT_CELL)
-					score += HOT_SCORE;
-				if (m->cells[x][yy] == BORDER_CELL)
+				if (e->heat_map.cells[x][yy] == HOT_CELL)
+					e->tmp_score += HOT_SCORE;
+				if (e->heat_map.cells[x][yy] == BORDER_CELL)
 					wall++;
 			}
 			yy++;
@@ -103,7 +105,7 @@ static int			score(t_hmap *m, t_piece *p, int x, int y)
 		x++;
 		i++;
 	}
-	return (wall && score ? score + WALL_SCORE : score);
+	return (wall && e->tmp_score ? e->tmp_score + WALL_SCORE : e->tmp_score);
 }
 
 static void			best_move(t_fenv *e, int *x_best, int *y_best)
@@ -111,6 +113,8 @@ static void			best_move(t_fenv *e, int *x_best, int *y_best)
 	int		x;
 	int		y;
 
+	e->playing = 0;
+	e->score = 0;
 	x = 0;
 	while (x < e->heat_map.size_x)
 	{
@@ -119,9 +123,9 @@ static void			best_move(t_fenv *e, int *x_best, int *y_best)
 		{
 			if (can_fit_here(e, x, y))
 			{
-				if (score(&(e->heat_map), &(e->piece_buffer), x, y) >= e->score)
+				if (score(e, x, y) >= e->score)
 				{
-					e->score = score(&(e->heat_map), &(e->piece_buffer), x, y);
+					e->score = e->tmp_score;
 					*x_best = x - e->piece_buffer.offset_x;
 					*y_best = y - e->piece_buffer.offset_y;
 				}
@@ -134,21 +138,24 @@ static void			best_move(t_fenv *e, int *x_best, int *y_best)
 }
 
 
-void				play_turn(t_fenv *env)
+void				play_game(t_fenv *env)
 {
 	int		x_best;
 	int		y_best;
 	t_piece	*piece;
 
-	x_best = 0;
-	y_best = 0;
-	env->score = 0;
-	env->playing = 0;
 	piece = &(env->piece_buffer);
-	get_vm_output(env);
-	update_heatvalues(&(env->heat_map), env->char_opp);
-	get_offset(piece);
-	best_move(env, &x_best, &y_best);
-	clean_buffer(piece->cells, piece->size_x, piece->size_y);
-	ft_printf("%d %d\n", x_best, y_best);
+	get_player_data(env);
+	while (env->playing)
+	{
+		x_best = 0;
+		y_best = 0;
+		get_mapdata(&(env->heat_map), &(env->piece_buffer));
+		get_piecedata(&(env->piece_buffer));
+		update_heatvalues(&(env->heat_map), env->char_opp);
+		get_offset(piece);
+		best_move(env, &x_best, &y_best);
+		clean_buffer(piece->cells, piece->size_x, piece->size_y);
+		ft_printf("%d %d\n", x_best, y_best);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: upopee <upopee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/16 15:19:00 by upopee            #+#    #+#             */
-/*   Updated: 2018/01/26 18:28:43 by Bilou            ###   ########.fr       */
+/*   Updated: 2018/01/29 12:08:23 by Bilou            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int		init_heatmap(t_hmap *map, int x, int y)
 		i++;
 	}
 	map->size_x = i;
-	map->size_x = y;
+	map->size_y = y;
 	return (i == x ? SUCCESS : FAILURE);
 }
 
@@ -50,10 +50,19 @@ int		init_piecebuffer(t_piece *p, int xmax, int ymax)
 
 void	clean_buffer(char **buffer, int x, int y)
 {
-	while (x--)
+	int		i;
+	int		j;
+
+	i = 0;
+	while (i < x)
 	{
-		while (y--)
-			buffer[x][y] = 0;
+		j = 0;
+		while (j < y)
+		{
+			buffer[i][j] = '.';
+			j++;
+		}
+		i++;
 	}
 }
 

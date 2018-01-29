@@ -6,13 +6,14 @@
 /*   By: upopee <upopee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/16 15:25:50 by upopee            #+#    #+#             */
-/*   Updated: 2018/01/26 18:38:02 by Bilou            ###   ########.fr       */
+/*   Updated: 2018/01/29 13:20:36 by Bilou            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "filler.h"
 #include "buffer_tools.h"
+#include "debug.h"
 
 static char		*next_word(char *str, char separator)
 {
@@ -30,53 +31,68 @@ static void		get_linedata(t_hmap *hmap, char *buff, int curr_line)
 	i = 0;
 	while (i < hmap->size_y)
 	{
-		hmap->cells[curr_line][i] = *buff;
+		hmap->cells[curr_line][i] = buff[i];
 		i++;
-		buff++;
 	}
 }
 
-static void		get_mapdata(t_hmap *hmap, t_piece *piece, char *head)
+void			get_player_data(t_fenv *env)
 {
 	char	*buff;
+
+	buff = NULL;
+	get_next_line(STDIN_FILENO, &buff);
+	env->player = ft_strstr(buff, "p1") ? 1 : 2;
+	env->opponent = env->player == 1 ? 2 : 1;
+	env->char_used = env->player == 1 ? P1_CHAR : P2_CHAR;
+	env->char_opp = env->player == 1 ? P2_CHAR : P1_CHAR;
+	ft_strdel(&buff);
+}
+
+void			get_mapdata(t_hmap *hmap, t_piece *piece)
+{
+	char	*buff;
+	char	*tmp;
 	int		i;
 
+	buff = NULL;
+	get_next_line(STDIN_FILENO, &buff);
 	if (hmap->size_x == UNSET && hmap->size_y == UNSET)
 	{
-		buff = next_word(head, ' ');
-		hmap->size_x = ft_atoi(buff);
-		buff = next_word(buff, ' ');
-		hmap->size_y = ft_atoi(buff);
+		tmp = next_word(buff, ' ');
+		hmap->size_x = ft_atoi(tmp);
+		tmp = next_word(tmp, ' ');
+		hmap->size_y = ft_atoi(tmp);
 		init_heatmap(hmap, hmap->size_x, hmap->size_y);
 		init_piecebuffer(piece, hmap->size_x, hmap->size_y);
 	}
+	ft_strdel(&buff);
 	get_next_line(STDIN_FILENO, &buff);
-	free(buff);
-	buff = NULL;
+	ft_strdel(&buff);
 	i = 0;
 	while (i < hmap->size_x)
 	{
 		get_next_line(STDIN_FILENO, &buff);
 		get_linedata(hmap, next_word(buff, ' '), i);
-		free(buff);
-		buff = NULL;
+		ft_strdel(&buff);
 		i++;
 	}
 }
 
-static void		get_piecedata(t_piece *piece, char *head)
+void			get_piecedata(t_piece *piece)
 {
 	char	*buff;
+	char	*tmp;
 	int		i;
 	int		j;
 
-	ft_printf("head %p / text: %s / \n", head, head);
-	buff = next_word(head, ' ');
-	piece->size_x = ft_atoi(buff);
-	ft_printf("%p / %d / \n", buff, piece->size_x);
-	buff = next_word(buff, ' ');
-	piece->size_y = ft_atoi(buff);
-	ft_printf("%p / %d / \n", buff, piece->size_y);
+	buff = NULL;
+	get_next_line(STDIN_FILENO, &buff);
+	tmp = next_word(buff, ' ');
+	piece->size_x = ft_atoi(tmp);
+	tmp = next_word(tmp, ' ');
+	piece->size_y = ft_atoi(tmp);
+	ft_strdel(&buff);
 	i = 0;
 	while (i < piece->size_x)
 	{
@@ -87,34 +103,7 @@ static void		get_piecedata(t_piece *piece, char *head)
 			piece->cells[i][j] = buff[j];
 			j++;
 		}
-		ft_printf("%s\n", piece->cells[i]);
-		free(buff);
-		buff = NULL;
+		ft_strdel(&buff);
 		i++;
-	}
-}
-
-void			get_vm_output(t_fenv *env)
-{
-	char	*buff;
-
-	buff = NULL;
-	while (get_next_line(STDIN_FILENO, &buff) > 0)
-	{
-		if (env->player == UNSET)
-		{
-			env->player = ft_strstr(buff, "p1") ? 1 : 2;
-			env->opponent = env->player == 1 ? 2 : 1;
-			env->char_used = env->player == 1 ? P1_CHAR : P2_CHAR;
-			env->char_opp = env->player == 1 ? P2_CHAR : P1_CHAR ;
-		}
-		else if (ft_strstr(buff, "Plateau"))
-			get_mapdata(&(env->heat_map), &(env->piece_buffer), buff);
-		else if (ft_strstr(buff, "Piece"))
-			get_piecedata(&(env->piece_buffer), buff);
-		else
-			exit(ERROR);
-		free(buff);
-		buff = NULL;
 	}
 }

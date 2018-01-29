@@ -6,7 +6,7 @@
 /*   By: upopee <upopee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/15 11:13:57 by upopee            #+#    #+#             */
-/*   Updated: 2018/01/26 18:07:21 by Bilou            ###   ########.fr       */
+/*   Updated: 2018/01/29 14:52:55 by Bilou            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # define P2_CHAR 'X'
 # define PIECE_CHAR '*'
 
-# define HOT_SCORE 5
+# define HOT_SCORE 10
 # define WALL_SCORE 50
 
 typedef struct	s_hmap
@@ -51,6 +51,7 @@ typedef struct	s_fenv
 	char		char_used;
 	char		char_opp;
 	int			score;
+	int			tmp_score;
 	int			playing;
 	t_hmap		heat_map;
 	t_piece		piece_buffer;
