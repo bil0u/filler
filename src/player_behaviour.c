@@ -6,7 +6,7 @@
 /*   By: upopee <upopee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 18:30:04 by upopee            #+#    #+#             */
-/*   Updated: 2018/01/29 20:55:46 by Bilou            ###   ########.fr       */
+/*   Updated: 2018/02/01 13:36:18 by upopee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,34 @@
 #include "vm_io.h"
 #include "buffer_tools.h"
 #include "analytics.h"
+
+static void			get_offset(t_piece *p)
+{
+	int		i;
+
+	p->offset_x = 0;
+	p->offset_y = 0;
+	while (p->offset_x < p->size_x)
+	{
+		i = 0;
+		while (i < p->size_y && p->cells[p->offset_x][i] == EMPTY_CELL)
+			i++;
+		if (i == p->size_y)
+			p->offset_x++;
+		else
+			break ;
+	}
+	while (p->offset_y < p->size_y)
+	{
+		i = 0;
+		while (i < p->size_x && p->cells[i][p->offset_y] == EMPTY_CELL)
+			i++;
+		if (i == p->size_x)
+			p->offset_y++;
+		else
+			break ;
+	}
+}
 
 static void			best_move(t_fenv *e, t_hmap *m, t_piece *p, t_analytics *a)
 {

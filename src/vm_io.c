@@ -6,14 +6,13 @@
 /*   By: upopee <upopee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/16 15:25:50 by upopee            #+#    #+#             */
-/*   Updated: 2018/01/29 13:20:36 by Bilou            ###   ########.fr       */
+/*   Updated: 2018/02/01 13:07:23 by upopee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "filler.h"
 #include "buffer_tools.h"
-#include "debug.h"
 
 static char		*next_word(char *str, char separator)
 {
@@ -70,12 +69,11 @@ void			get_mapdata(t_hmap *hmap, t_piece *piece)
 	get_next_line(STDIN_FILENO, &buff);
 	ft_strdel(&buff);
 	i = 0;
-	while (i < hmap->size_x)
+	while (i++ < hmap->size_x)
 	{
 		get_next_line(STDIN_FILENO, &buff);
-		get_linedata(hmap, next_word(buff, ' '), i);
+		get_linedata(hmap, next_word(buff, ' '), i - 1);
 		ft_strdel(&buff);
-		i++;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: upopee <upopee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/17 15:33:37 by upopee            #+#    #+#             */
-/*   Updated: 2018/01/29 18:06:07 by Bilou            ###   ########.fr       */
+/*   Updated: 2018/02/01 13:15:20 by upopee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,32 +64,16 @@ void			update_heatvalues(t_hmap *hmap, char char_opp)
 	}
 }
 
-void			get_offset(t_piece *p)
+static int		current_pos_valid(t_fenv *e, char p, char m, int *links)
 {
-	int		i;
-
-	p->offset_x = 0;
-	p->offset_y = 0;
-	while (p->offset_x < p->size_x)
+	if (p == PIECE_CHAR)
 	{
-		i = 0;
-		while (i < p->size_y && p->cells[p->offset_x][i] == EMPTY_CELL)
-			i++;
-		if (i == p->size_y)
-			p->offset_x++;
-		else
-			break ;
+		if (m == e->char_used)
+			(*links)++;
+		else if (m == e->char_opp)
+			return (0);
 	}
-	while (p->offset_y < p->size_y)
-	{
-		i = 0;
-		while (i < p->size_x && p->cells[i][p->offset_y] == EMPTY_CELL)
-			i++;
-		if (i == p->size_x)
-			p->offset_y++;
-		else
-			break ;
-	}
+	return (1);
 }
 
 int				can_fit_here(t_fenv *e, int x, int y)
@@ -107,13 +91,9 @@ int				can_fit_here(t_fenv *e, int x, int y)
 		yy = y;
 		while (j < e->piece_buffer.size_y && yy < e->heat_map.size_y)
 		{
-			if (e->piece_buffer.cells[i][j] == PIECE_CHAR)
-			{
-				if (e->heat_map.cells[x][yy] == e->char_used)
-					links++;
-				else if (e->heat_map.cells[x][yy] == e->char_opp)
-					return (0);
-			}
+			if (!current_pos_valid(e, e->piece_buffer.cells[i][j],
+									e->heat_map.cells[x][yy], &links))
+				return (0);
 			yy++;
 			j++;
 		}
