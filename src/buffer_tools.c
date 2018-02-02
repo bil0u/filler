@@ -6,10 +6,11 @@
 /*   By: upopee <upopee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/16 15:19:00 by upopee            #+#    #+#             */
-/*   Updated: 2018/01/29 12:08:23 by Bilou            ###   ########.fr       */
+/*   Updated: 2018/02/02 16:44:38 by upopee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "filler.h"
 
 int		init_heatmap(t_hmap *map, int x, int y)
