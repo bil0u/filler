@@ -6,7 +6,7 @@
 #    By: upopee <upopee@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/15 11:05:28 by upopee            #+#    #+#              #
-#    Updated: 2018/02/01 12:29:37 by upopee           ###   ########.fr        #
+#    Updated: 2018/02/02 16:39:46 by upopee           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ LFLAGS =  -lft -L $(LIB_DIR)
 
 # Library paths
 LIB_DIR = ./libft
-LIB_INCLUDES_DIR = $(LIB_DIR)/inc
+LIB_INCLUDES_DIR = $(LIB_DIR)
 
 # Sources paths
 VPATH = ./src
